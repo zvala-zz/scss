@@ -1,0 +1,25 @@
+.product{
+    @include border;
+    padding: 16px;
+    text-align: center;
+    font-weight: bold;
+
+    &__image{
+        width: 120px;
+        height: 120px;
+    }
+
+    &__title{
+        font-size: 24px;
+    }
+
+    &__price{
+        color: $price;
+        font-size: 32px;
+    }
+
+    &--dark{
+        background-color: #34495e;
+        color: #fff;
+    }
+}
