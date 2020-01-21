@@ -1,0 +1,13 @@
+.header{
+   grid-column: 1 / 13;
+   text-transform: uppercase;
+
+   &__links {
+
+   }
+
+   &__link{
+       text-decoration: none;
+       padding: 16px;
+   }
+}
