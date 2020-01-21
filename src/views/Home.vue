@@ -1,20 +1,11 @@
 <template>
-  <div>
-    <div class="product-list">
-      <product
-        v-for="(item, index) in products"
-        :key="index"
-        :url="item.url"
-        :title="item.title"
-        :price="item.price"
-        :discount="item.discount"
-      />
-    </div>
+  <div class="product-list">
+    <product v-for="(item, index) in products" :key="index" :id="item.id" :name="item.name" :price="item.price" :img="item.img" :color="item.color" :description="item.description" :category="item.category"/>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import Product from "../components/Product";
 
 export default {
@@ -26,6 +17,12 @@ export default {
     ...mapState({
       products: state => state.products
     })
+  },
+  methods: {
+    ...mapActions(["fetchProductList"])
+  },
+  mounted() {
+    this.fetchProductList();
   }
 };
 </script>
