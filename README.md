@@ -1,9 +1,11 @@
-# SCSS 6-1 architecture for Masiv
+# SCSS 6-1 architecture for Masiv 
 
-Esta arquitectura se encuentra basada en el [El Patron 7-1](https://sass-guidelin.es/es/#arquitectura) propuesto por [Hugo Giraudel](https://hugogiraudel.com/). Se empieza por crear 6 directorios y un archivo (_module.scss) dentro de cada uno. Haciendo uso de [Partials](https://sass-lang.com/guide) importamos cada **módulo** en un único archivo (main.scss). 
+Esta arquitectura se encuentra basada en el [El Patron 7-1](https://sass-guidelin.es/es/#arquitectura) propuesto por [Hugo Giraudel](https://hugogiraudel.com/). 
+
+Se empieza por crear 6 directorios y un archivo (_module.scss) dentro de cada uno. Haciendo uso de [Partials](https://sass-lang.com/guide) importamos cada **módulo** en un único archivo (**main.scss**). 
 
 
-Idealmente, el scaffoding debe quedarnos asi:
+Idealmente, el **scaffoding** debe quedarnos asi:
 
 ```
 |-- SCSS
@@ -17,17 +19,17 @@ Idealmente, el scaffoding debe quedarnos asi:
     |-- main.scss 
 ```
 
-## ¿Por qué 01_, 02_ ... 06_ como prefijos en el nombre de los módulos?
+## ¿Por qué 01_, 02_ ... 06_ como prefijos en el nombre de los módulos? 🤔
 
-Al agregar el prefijo **01_** al módulo **vendors** denotamos su herarquia. Esto nos ayuda a identificar rápidamente que va primero y que va después dentro de la arquitectura.
+Al agregar el prefijo **01_** al módulo **vendors** denotamos su Jerarquía. Esto nos ayuda a identificar rápidamente que va primero y que va después dentro de la arquitectura.
 
-## ¿Por qué **6-1** y no **7-1**?
+## ¿Por qué **6-1** y no **7-1**? 😱
 
 **Masiv** no cuenta con un sistemas de temas como el **Dark theme** de **Google**, por ello no se plantea un directorio que contegas hojas de estilos para tal fin.
 
 ## main.scss
 
-Este archivo único importa todos archivos _modules.scss de cada modulo. 
+Este archivo único importa todos archivos **_modules.scss** de cada modulo. 
 
 ```
 @import './01_vendors/module';
@@ -38,89 +40,113 @@ Este archivo único importa todos archivos _modules.scss de cada modulo.
 @import './06_pages/module';
 ```
 
-**Importante**: Este archivo no debe contener estilos ni debe importar un archivo diferente a **_module.scss**. Para ello, se debe importar dicho archivo dentro de su módulo correspondiente.
+🌟**Importante**: Este archivo no debe contener estilos ni debe importar un archivo diferente a **_module.scss**. Para ello, se debe importar dicho archivo dentro de su módulo correspondiente.
 
 ## _modules.scss
 
-Cada módulo puede tener ***N*** cantidad de archivos.
+Cada módulo cuenta con un archivo único **_module.scss** el cual puede importar ***N*** cantidad de archivos, siempre y cuando estos sean correspondientes a su módulo.
 
-Por ejemplo:
+❗️ Ejemplo:
 
-- El archivo **_module.css** del módulo **05_components** tiene las referencias de las hojas de estilos de nuestros componentes.
+El archivo **_module.css** del módulo **05_components** tiene las referencias de las hojas de estilos de nuestros componentes.
 
 ```
 @import './buttons';
 @import './labels';
-@import './modal';
+@import './modals';
 ```
 
-**Importante**: **_module.scss** no debe tener estilos. Este archivo es solamente para importar los [Partials](https://sass-lang.com/guide) de **scss**.
+🌟**Importante**: **_module.scss** no debe tener estilos. Este archivo es solamente para importar los [Partials](https://sass-lang.com/guide) de **scss**.
 
+## ¿Por qué _ (Guión bajo) antes de los nombres de los archivos? 🤔
 
-## ¿Por qué _ (Guión bajo) antes de los nombres de los archivos?
-
-El **Guión bajo** se utiliza para indicar que la hoja de estilos va a ser importada haciendo uso de (@import).
+El **Guión bajo** se utiliza para indicar que la hoja de estilos va a ser importada haciendo uso de (**@import**) y que debe ser ignorados por el compilado, esto nos permite tener ***N*** cantidad de archivos, organizar nuestro código y compilar todo en un archivo centralizado (**main.scss**).
 
 ## 01_vendors
 
-Uso de librerías de 3ros. Es la 1ra en cargar para que los estilos no afecten otros elementos externos y modificación a las respectivas librerías 
+Este módulo es **exclusivo** para librerías de 3ros. como (boostrap, materialize, Semantic-UI, etc).
+
+* _bootstrap.scss
+* _materialize.scss.
+* _daterangepicker.scss
+
+🌟**Importante**: El módulo **01_vendors** debe ser el primer directorio referenciado en (**main.scss**). ¿Por qué? 🤔 El hacerlo, nos permite definir una o varias reglas para las propiedades de un mismo elemento de la librería.
 
 ## 02_base
 
+Nuestro segundo módulo **02_base**, contiene el código **boilerplate** de nuestro proyecto. Como su nombre lo indica, son las bases de nuestro **CSS**, por lo tanto, define las reglas y variables globales del proyecto. 
+
+📋 Casos comúnes:
+
+* _animations.scss
+* _resets.scss
+* _colors.scss
+* _typography.scss 
+
 ## 03_utils
+
+Esté módulo reune todas las herramientas que **SASS** nos brinda.
+
+* _variables.scss
+* _mixins.scss
+* _functions.scss
+* _placeholders.scss
+
+🌟**Importante**: La regla general para este **módulo** es que ninguno de estos archivos debería generar o definir los estilos de una clase o elemento. Estos no son más que **helpers** de **SASS**.
 
 ## 04_layout
 
-contains all styles involved with the layout of your project. Such as styles for your header, footer, navigation and the grid system.
+Contiene todos los estilos de components **macro** 😱 que definen el layout (estructura del sitio). Algunos de estos componentes son:
+
+* _footer.scss
+* _header.scss
+* _forms.scss
 
 ## 05_components
 
+Contiene los estilos de los componentes **atómicos** de nuestro proyecto.
+
+📋 casos comúnes:
+
+* _buttons.scss
+* _cards.scss
+* _carousel.scss
+
 ## 06_pages
 
-Uso de Herramientas de SASS: 
+No es común tener estilos para una vista especifica, en caso de tener la necesidad, se recomienda crear un archivo con dichos estilos dentro de este modulo.
 
-Mixins: 
+Casos comúnes:
 
-Si un grupo de propiedades CSS que están siempre juntas por alguna razón (es decir, no es una coincidencia), se puede crear un mixin en su lugar. Un mixin puede estar definido sin definir parametros, en dicho caso, puede llamarse se llama al mixin 
+- _SMS.scss 😥
 
-Ejm: 
+### Beneficios
 
-```
-@mixin border($size, $state, $color){ 
-    border: $size $state $color; 
-} 
+* Facilidad al momento de **debuggear** (Archivos más pequeños) 😍.
+* Organización del código.
+* Future proof ❗️❗️❗️
 
-.card { 
-    @include border(‘1px’, ‘solid’, $red-color); 
-} 
-
-```
-
-### Pros  
-
-- Estructuración y modularización del proyecto en relación al manejo de los estilos.
-- Reusabilidad de codigo de CSS.
-- Permite adaptibilidad para los proyectos grandes.
-- Facilidad al momento de **debuggear**.
-
-### Cons  
-- Puede ser confuso al principio, al fin de cuentas es una arquitectura bastante completa.
-- Es muy "ruidosa" para proyectos pequeños.
-
-
+### Cons
+* Más archivos a los cuales se debe tener encuenta.
 
 # BEM (Block Element Modifier)
 
-[Block Element Modifier](http://getbem.com/introduction/) es una nomenclatura utilizada para el nombrado de las clases de CSS la cual ha sido adoptada globalmente como una buena practica.
+[Block Element Modifier](http://getbem.com/introduction/) es una nomenclatura utilizada para el nombrado de las clases de **CSS** la cual ha sido adoptada globalmente como una buena práctica.
 
 ## Beneficios
 
-- Comunica intencion.
-- Comunica estructura del componente.
-- Reusabilidad.
-- Simple de entender.
+* Los desarrolladores quedan bajo un mismo estándar.
+* Comunica estructura del componente (**intención**).
+* Simple de entender.
 
-## Como funciona
+## Desventajas
+
+* Los nombres de las clases pueden llegar a ser muy largos.
+* Puede tomar tiempo acostumbrarse a la metodología.
+
+
+
+## ¿Cómo funciona? 🤔
 
 <p align="center">
     <img src="https://en.bem.info/kqvCO2ZXeivuLHCbn2to5chFZrM.png">
@@ -187,7 +213,7 @@ Ejemplo con **SCSS**:
 </style>
 ```
 
-**Importante**: No se debe usar la clase del **modificadora** por si misma. La clase **modificadora** se utiliza para extender 
+🌟**Importante**: No se debe usar la clase del **modificadora** por si misma. La clase **modificadora** se utiliza para extender 
 y no para reemplazar la clase base.
 
 ```
@@ -228,7 +254,7 @@ y no para reemplazar la clase base.
 </style>
 ```
 
-## Malas practicas
+## Malas practicas 👿
 
 ### Caso #1
 
@@ -307,14 +333,67 @@ Tanto los bloques como los elementos unicamente deben describir su función/prop
 
 ## CSS orientado a objetos (OOCSS): 
 
-- Mantener la estructura y el aspecto por separado 
-- Es una metodología realmente básica, que se enfoca principalmente en la forma de llamar las clases CSS de una forma mucho mas libre que BEM 
+La idea detras de **OOCSS** es tratar cada elemento de la página como un **objeto**, dandole a todos los **objetos** clases. Se busca separar la estructura del diseño y el contenedor del contenido.
+
+## Separar la estructura del diseño
+
+Ejemplo sin principios OOCSS
+```
+#button {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+  border: solid 1px #ccc;
+  background: linear-gradient(#ccc, #aaa);
+  box-shadow: rgba(0, 0, 0, .5) 2px 2px 5px;
+}
+```
+
+Ejemplo aplicando principios OOCSS
+```
+.button {
+  width: 200px;
+  height: 50px;
+  padding: 10px;
+}
+```
+
+## Separar contenedor del contenido
+Ejemplo sin principios OOCSS
+
+
+```
+header h1 {
+  font-family: 'Roboto', Helvetica, sans-serif;
+  font-size: 2em;
+  color: #F44;
+}
+```
+Ejemplo aplicando principios OOCSS
+
+```
+h1{
+  font-family: 'Roboto', Helvetica, sans-serif;
+  color: #F44;
+}
+```
+
+## Ventajas
+
+* Elimina propiedades en común.
+* Formenta la re-utilización de estilos
+* BEM y OOCSS funcionan muy bien juntos.
+
+## Desventajas
+
+* Los **id** solo deben ser usados para inputs de formularios.
 
 ## Scalable and Modular Architecture for CSS (SMACSS): 
-Es una metodología mucho mas compleja que conlleva su propio sistema de scaffolding y naming convention 
 
-[documentación](http://smacss.com/)
+Es una metodología mucho más compleja que conlleva su propio sistema de scaffolding y naming convention 
+
+[Documentación](http://smacss.com/)
 
 ## Atomic CSS (ACSS): 
 
-Es una metodología con un sistema de scaffolding que tiene la misma visión de BEM (división del interfaz de usuario en bloques independientes) pero que su naming convention consiste en unicamente crear clases reutilizables. Sus clases reutilizables consisten en basicamente nombrar los modificadores de forma directa los cuales haran de forma explicita tendran que decir que hacen (ejm. Class=”Mt-10”).
+Es una metodología con un sistema de **scaffolding** que tiene la misma visión de BEM (división del interfaz de usuario en bloques independientes) pero que su naming convention consiste en unicamente crear clases reutilizables. Sus clases reutilizables consisten en basicamente nombrar los modificadores de forma directa los cuales haran de forma explicita tendran que decir que hacen (ejm. Class=”Mt-10”).
