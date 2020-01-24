@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { Api } from '../api/api.js';
+
 Vue.use(Vuex)
+
+const api = new Api();
 
 export default new Vuex.Store({
   state: {
@@ -13,17 +17,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    fetchProductList({ commit }) {
-      fetch('https://api.myjson.com/bins/ubt22', {
-        method: "GET",
-        headers: new Headers(),
-        mode: "cors",
-        cache: "default"
-      }).then(res => {
-        return res.json();
-      }).then(data => {
-        commit('setProductList', data.products);
-      });
+    fetchProductList() {
+      api.getProductList().then(res => {
+        this.commit('setProductList', res);
+      })
     }
   }
 })
