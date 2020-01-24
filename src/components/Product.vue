@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <div class="product" :class="{ 'product--dark' : discount }">
     <span class="product__price">{{price}}</span>
     <img :src="img" alt class="product__image" />
     <p class="product__title">{{name}}</p>
@@ -21,7 +21,8 @@ export default {
     color: String,
     img: String,
     description: String,
-    category: String
+    category: String,
+    discount: Boolean
   }
 };
 </script>
